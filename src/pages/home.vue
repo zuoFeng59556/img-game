@@ -1,8 +1,9 @@
 <template>
   <view>
     <view class="title">第{{ index }}层</view>
-    <image class="img" :src="image"></image>
-    <view class="prompt">提示：四字成语</view>
+    <image class="img" @click="clickImg" :src="image"></image>
+    <view class="prompt">(点击图片可查看大图)</view>
+    <view class="prompt">提示：四字成语，含有“{{ randomChar }}”。</view>
     <input class="uni-input" v-model="answer" placeholder="输入答案" />
     <button class="btn" @click="submit" type="default">提交</button>
 
@@ -31,6 +32,7 @@ const index = ref(1); // 当前关卡
 const answer = ref(""); // 答案
 const showRetro = ref(false); // 是否显示复活弹窗
 const lives = ref(0); // 复活次数
+const randomChar = ref(""); // 随机字符
 
 // ========================================created========================================
 onShareAppMessage(async () => {
@@ -68,7 +70,7 @@ async function getImage() {
   if (res.ok) {
     image.value = res.url;
     image.value = url + image.value;
-    console.log(image.value);
+    randomChar.value = res.randomChar;
   }
 }
 
@@ -85,7 +87,7 @@ async function submit() {
     uni.showToast({
       title: "回答正确",
       icon: "success",
-      duration: 2000,
+      duration: 500,
     });
 
     getImage();
@@ -99,6 +101,16 @@ async function submit() {
 
 function close() {
   uni.navigateBack();
+}
+
+function clickImg() {
+  wx.previewImage({
+    urls: [image.value], //需要预览的图片http链接列表，多张的时候，url直接写在后面就行了
+    current: "", // 当前显示图片的http链接，默认是第一个
+    success: function (res) {},
+    fail: function (res) {},
+    complete: function (res) {},
+  });
 }
 </script>
 
