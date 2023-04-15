@@ -1,19 +1,25 @@
 <template>
+
   <view class="box">
     <view class="title">设置一个帅气的头像和姓名吧！</view>
+
+
+    <image class="avatar" :src="avatarUrl"></image>
+
+    
     <button
       class="avatar-wrapper"
       open-type="chooseAvatar"
       @chooseavatar="onChooseAvatar"
     >
       上传头像
-      <image class="avatar" :src="avatarUrl"></image>
     </button>
+
     <input
       type="nickname"
       class="weui-input"
       @change="getNickname"
-      placeholder="请输入昵称"
+      placeholder="请输入你炫酷吊炸天的名字"
     />
 
     <button class="btn" @click="ok">确定</button>
@@ -28,6 +34,8 @@ import cloud from "../api/cloud";
 
 const name = ref("");
 const avatarUrl = ref("");
+const avatarShow = ref(false)
+
 
 // ========================================created========================================
 
@@ -96,6 +104,12 @@ async function login() {
 
 function onChooseAvatar(e) {
   avatarUrl.value = e.detail.avatarUrl;
+ 
+  if (avatarUrl.value) {
+    avatarShow.value = true
+  }
+  
+
 }
 
 function getNickname(e) {
@@ -104,25 +118,34 @@ function getNickname(e) {
 </script>
 
 <style lang="less">
+
 .box {
-  margin: 300rpx 0 0 0;
+  margin: 250rpx 0 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
+  .title{
+    font-size: 28rpx;
+  }
+
   .avatar-wrapper {
+    margin-top: 10rpx;
+
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    font-size: 28rpx;
 
-    .avatar {
+  }
+  .avatar {
+    margin-top: 30rpx;
       width: 100rpx;
       height: 100rpx;
       border-radius: 50%;
     }
-  }
 
   .avatar-wrapper::after {
     border: none;
@@ -131,11 +154,18 @@ function getNickname(e) {
   .weui-input {
     width: 100%;
     height: 100rpx;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
+    border-bottom: 1px solid #e5e5e5;
     padding: 0 20rpx;
     box-sizing: border-box;
     margin-top: 20rpx;
+    font-size: 28rpx;
+  }
+
+  .btn{
+    margin-top: 50rpx;
+    width: 220rpx;
+    height: 80rpx;
+    font-size: 30rpx;
   }
 }
 </style>

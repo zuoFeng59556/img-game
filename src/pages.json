@@ -6,8 +6,11 @@
 		{
 			"path": "pages/home"
 		},
-				{
+			{
 			"path": "pages/login"
+		},
+		{
+			"path": "pages/rankings"
 		}
 	],
 	"globalStyle": {

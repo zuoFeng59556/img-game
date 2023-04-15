@@ -1,11 +1,32 @@
 <template>
   <view>
-    <image class="img" src="../static/test.png" />
+  <view class="slideshow">
+    <image class="titleimg" src="../static/test1.gif" />
+  </view>
     <view class="prompt">根据图片猜成语，图片来自AI，人工挑战智能！</view>
-    <uni-input class="uni-input" placeholder="请输入姓名" />
-    <button class="btn" @click="goStart">开始</button>
-    <button class="btn">排行榜</button>
-    <button class="btn">我的</button>
+
+    <view class="btn" @click="goStart">
+      <view class="item">
+        <image class="img" src="../static/go.png" />
+        <view class="name"> 开始 </view>
+      </view>
+    </view>
+
+    <view @click="goRakings" class="btn">
+      <view class="item">
+        <image class="img" src="../static/phb.png" />
+        <view class="name"> 排行榜 </view>
+      </view>
+    
+    </view>
+
+    <view class="btn">
+    
+      <view class="item">
+        <image class="img" src="../static/mine.png" />
+        <view class="name"> 我的 </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -63,29 +84,68 @@ function goStart() {
     url: "/pages/home",
   });
 }
+
+function goRakings() {
+  uni.navigateTo({
+    url: "/pages/rankings",
+  });
+}
 </script>
 
 <style lang="less">
+page{
+  background-image: linear-gradient( #fff, #fff,#e6dede);
+}
+
 @font-face {
   font-family: "Press Start 2P";
   src: url("~@/static/PressStart2P-1.ttf") format("truetype");
 }
-.img {
-  width: 100%;
+
+.slideshow{
+  width: 200rpx;
+  height: 200rpx;
+  margin: auto;
+  margin-top: 80rpx;
+  .titleimg {
+    border-radius: 30rpx;
+  width: 200rpx;
+  height: 200rpx;
 }
+}
+
 .prompt {
+  margin-top: 50rpx;
   width: 100%;
+  height: 80rpx;
   text-align: center;
-  margin: 50rpx 0 0 0;
+  font-size: 30rpx;
+  color: #808080;
+  margin-bottom: 80rpx;
+  line-height: 80rpx;
 }
 .btn {
-  background-color: gray;
-  color: white;
-  font-size: 24px;
-  font-family: "Press Start 2P", cursive;
-  padding: 10px 20px;
-  border: 3px solid white;
-  border-radius: 5px;
-  text-transform: uppercase;
+  margin: auto;
+  
+  width: 680rpx;
+  margin-top: 30rpx;
+  display: flex;
+  background-color: #eee;
+  color: #000;
+  font-size: 36rpx;
+  padding: 10rpx 20rpx;
+  border: 3rpx solid #000;
+  border-radius: 15rpx;
+  line-height: 80rpx;
+  font-weight: 700;
+  .item {
+    display: flex;
+    margin: auto;
+    .img {
+      margin-right: 30rpx;
+      width: 80rpx;
+      height: 80rpx;
+    }
+  }
 }
 </style>
