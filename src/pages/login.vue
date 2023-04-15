@@ -64,11 +64,9 @@ async function ok() {
       duration: 2000,
     });
 
-    setTimeout(() => {
-      uni.navigateTo({
-        url: "/pages/index",
-      });
-    }, 1000);
+    uni.redirectTo({
+      url: "/pages/index",
+    });
   }
 }
 

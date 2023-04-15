@@ -38,12 +38,14 @@ const randomChar = ref(""); // 随机字符
 onShareAppMessage(async () => {
   if (lives.value <= 0) return;
 
-  await cloud.invoke("share", { id: gameId.value });
-  getImage();
+  setTimeout(async () => {
+    await cloud.invoke("share", { id: gameId.value });
+    getImage();
 
-  index.value++;
-  answer.value = "";
-  showRetro.value = false;
+    index.value++;
+    answer.value = "";
+    showRetro.value = false;
+  }, 1000);
 
   return {
     title: "这波啊，这波我差点到大气层了，快来帮我复活吧！",
@@ -104,12 +106,8 @@ function close() {
 }
 
 function clickImg() {
-  wx.previewImage({
-    urls: [image.value], //需要预览的图片http链接列表，多张的时候，url直接写在后面就行了
-    current: "", // 当前显示图片的http链接，默认是第一个
-    success: function (res) {},
-    fail: function (res) {},
-    complete: function (res) {},
+  uni.previewImage({
+    urls: [image.value], //预览图片的地址，必须要数组形式，如果不是数组形式就转换成数组形式就可以
   });
 }
 </script>
