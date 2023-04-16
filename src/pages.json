@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "pages/rankings"
+		},
+		{
+			"path": "pages/my"
 		}
 	],
 	"globalStyle": {

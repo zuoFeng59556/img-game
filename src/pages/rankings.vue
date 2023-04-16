@@ -1,71 +1,78 @@
 <template>
-
-    <view class="page">
-      <view class="title">天梯榜</view>
-      <view class="champion">
+  <view class="page">
+    <view class="title">天梯榜</view>
+    <view v-for="(item, index) in userList" :key="index">
+      <view class="champion" v-if="index === 0">
         <view class="left">
           <image class="img" src="../static/one.png" />
         </view>
 
         <view class="center">
-          <image class="img" src="../static/test.png" />
-          <view class="name">这是我的名字</view>
+          <image class="img" :src="url + item.avatar" />
+          <view class="name">{{ item.username }}</view>
         </view>
 
-        <view class="right"> 通关200层 </view>
+        <view class="right"> 通关{{ item.score }}层 </view>
       </view>
 
-      <view class="runnerUp">
+      <view class="runnerUp" v-if="index === 1">
         <view class="left">
           <image class="img" src="../static/two.png" />
         </view>
 
         <view class="center">
-          <image class="img" src="../static/test.png" />
-          <view class="name">这是我的名字</view>
+          <image class="img" :src="url + item.avatar" />
+          <view class="name">{{ item.username }}</view>
         </view>
 
-        <view class="right"> 通关200层 </view>
+        <view class="right"> 通关{{ item.score }}层 </view>
       </view>
 
-
-      <view class="third">
+      <view class="third" v-if="index === 2">
         <view class="left">
           <image class="img" src="../static/three.png" />
         </view>
 
         <view class="center">
-          <image class="img" src="../static/test.png" />
-          <view class="name">这是我的名字</view>
+          <image class="img" :src="url + item.avatar" />
+          <view class="name">{{ item.username }}</view>
         </view>
 
-        <view class="right"> 通关200层 </view>
+        <view class="right"> 通关{{ item.score }}层 </view>
       </view>
 
-
-
-      <view v-for="(item,index) in 5" :key="index" class="item">
+      <view class="item" v-if="index != 0 && index != 1 && index != 2">
         <view class="left">
-        <view class="img">4</view>
+          <view class="img">4</view>
         </view>
 
         <view class="center">
-          <image class="img" src="../static/test.png" />
-          <view class="name">这是我的名字</view>
+          <image class="img" :src="url + item.avatar" />
+          <view class="name">{{ item.username }}</view>
         </view>
 
-        <view class="right"> 通关200层 </view>
+        <view class="right"> 通关{{ item.score }}层 </view>
       </view>
-
-
-
-
     </view>
-
+  </view>
 </template>
 
 <script setup>
-import { reactive, toRefs } from "vue";
+import { ref } from "vue";
+
+import cloud from "../api/cloud";
+
+const url = "https://qt1rpp-avatar.oss.laf.run/"; // 图片地址
+const userList = ref([]);
+
+getList();
+
+async function getList() {
+  const res = await cloud.invoke("get-ranking-list");
+  if (res.ok) {
+    userList.value = res.data;
+  }
+}
 </script>
 
 <style lang="less">
@@ -111,9 +118,8 @@ import { reactive, toRefs } from "vue";
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
     }
-    .right{
+    .right {
       margin: auto;
       width: 200rpx;
       height: 58rpx;
@@ -123,7 +129,6 @@ import { reactive, toRefs } from "vue";
       color: #fff;
       text-align: center;
       border-radius: 15rpx;
-
     }
   }
 
@@ -162,9 +167,8 @@ import { reactive, toRefs } from "vue";
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
     }
-    .right{
+    .right {
       margin: auto;
       width: 200rpx;
       height: 58rpx;
@@ -174,7 +178,6 @@ import { reactive, toRefs } from "vue";
       color: #fff;
       text-align: center;
       border-radius: 15rpx;
-
     }
   }
 
@@ -213,9 +216,8 @@ import { reactive, toRefs } from "vue";
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
     }
-    .right{
+    .right {
       margin: auto;
       width: 200rpx;
       height: 58rpx;
@@ -225,11 +227,8 @@ import { reactive, toRefs } from "vue";
       color: #fff;
       text-align: center;
       border-radius: 15rpx;
-
     }
   }
-
-
 
   .item {
     display: flex;
@@ -270,9 +269,8 @@ import { reactive, toRefs } from "vue";
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
     }
-    .right{
+    .right {
       margin: auto;
       width: 200rpx;
       height: 58rpx;
@@ -282,7 +280,6 @@ import { reactive, toRefs } from "vue";
       color: #fff;
       text-align: center;
       border-radius: 15rpx;
-
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <view>
-  <view class="slideshow">
-    <image class="titleimg" src="../static/test1.gif" />
-  </view>
+    <view class="slideshow">
+      <image class="titleimg" src="../static/test1.gif" />
+    </view>
     <view class="prompt">根据图片猜成语，图片来自AI，人工挑战智能！</view>
 
     <view class="btn" @click="goStart">
@@ -15,13 +15,11 @@
     <view @click="goRakings" class="btn">
       <view class="item">
         <image class="img" src="../static/phb.png" />
-        <view class="name"> 排行榜 </view>
+        <view class="name"> 天梯榜 </view>
       </view>
-    
     </view>
 
-    <view class="btn">
-    
+    <view class="btn" @click="goMy">
       <view class="item">
         <image class="img" src="../static/mine.png" />
         <view class="name"> 我的 </view>
@@ -36,21 +34,10 @@ import { ref } from "vue";
 // ========================================data========================================
 
 // ========================================created========================================
-isLogin();
 
 login();
 
 // ========================================methods========================================
-
-function isLogin() {
-  // uniapp 本地存储
-  const user = uni.getStorageSync("user");
-  if (!user) {
-    uni.redirectTo({
-      url: "/pages/login",
-    });
-  }
-}
 
 async function login() {
   const user = uni.getStorageSync("user");
@@ -90,11 +77,17 @@ function goRakings() {
     url: "/pages/rankings",
   });
 }
+
+function goMy() {
+  uni.navigateTo({
+    url: "/pages/my",
+  });
+}
 </script>
 
 <style lang="less">
-page{
-  background-image: linear-gradient( #fff, #fff,#e6dede);
+page {
+  background-image: linear-gradient(#fff, #fff, #e6dede);
 }
 
 @font-face {
@@ -102,16 +95,16 @@ page{
   src: url("~@/static/PressStart2P-1.ttf") format("truetype");
 }
 
-.slideshow{
+.slideshow {
   width: 200rpx;
   height: 200rpx;
   margin: auto;
   margin-top: 80rpx;
   .titleimg {
     border-radius: 30rpx;
-  width: 200rpx;
-  height: 200rpx;
-}
+    width: 200rpx;
+    height: 200rpx;
+  }
 }
 
 .prompt {
@@ -126,7 +119,7 @@ page{
 }
 .btn {
   margin: auto;
-  
+
   width: 680rpx;
   margin-top: 30rpx;
   display: flex;

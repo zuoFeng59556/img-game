@@ -14,6 +14,9 @@
         分享给朋友({{ lives }}/3)
       </button>
       <button @click="close" class="btn">结束挑战</button>
+      <view v-show="index != 1" class="text"
+        >您已登上天梯榜，记得去“我的”设置头像和昵称哦～</view
+      >
     </view>
   </view>
 </template>
