@@ -48,7 +48,6 @@ getUser();
 
 async function getUser() {
   const res = await cloud.invoke("get-userInfo");
-  console.log(res);
   if (res.ok) {
     name.value = res.data.username;
     avatarUrl.value = url + res.data.avatar;
@@ -57,7 +56,6 @@ async function getUser() {
 }
 
 async function ok() {
-  console.log(name.value, avatarUrl.value);
   if (!name.value || !avatarUrl.value) {
     uni.showToast({
       title: "请填写完整信息",

@@ -90,11 +90,6 @@ page {
   background-image: linear-gradient(#fff, #fff, #e6dede);
 }
 
-@font-face {
-  font-family: "Press Start 2P";
-  src: url("~@/static/PressStart2P-1.ttf") format("truetype");
-}
-
 .slideshow {
   width: 200rpx;
   height: 200rpx;

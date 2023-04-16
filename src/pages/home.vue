@@ -116,10 +116,6 @@ function clickImg() {
 </script>
 
 <style lang="less">
-@font-face {
-  font-family: "Press Start 2P";
-  src: url("~@/static/PressStart2P-1.ttf") format("truetype");
-}
 .title {
   width: 100%;
   height: 100rpx;
