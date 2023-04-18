@@ -2,14 +2,29 @@
   <view>
     <view class="title">第{{ index }}层</view>
     <image class="img" @click="clickImg" :src="image"></image>
-    <view class="prompt">(点击图片可查看大图)</view>
-    <view class="prompt">提示：四字成语，含有“{{ randomChar }}”。</view>
-    <input class="uni-input" v-model="answer" placeholder="输入答案" />
-    <button class="btn" @click="submit" type="default">提交</button>
+    <!-- <view class="prompt">(点击图片可查看大图)</view> -->
+    <view class="prompt">提示：四字成语。</view>
+    <view class="answerList">
+      <view v-for="item in answerNumber" class="answer">{{ answerList[item - 1] }}</view>
+      <view @click="clickDelete">删除</view>
+    </view>
+
+    <view class="promptList">
+      <view class="text" v-for="item in randomChar" @click="clickText(item)">
+        {{ item }}
+      </view>
+    </view>
+
+    <button open-type="share" @onShareAppMessage="share" class="shareBtn">
+      分享跳过({{ lives }}/3)
+    </button>
 
     <view v-show="showRetro" class="retro-box">
       <view class="title">挑战失败！</view>
       <view class="text">分享可复活并跳过此关。</view>
+      <button @click="close" class="btn">跳过（1张万能卡）</button>
+      <button @click="close" class="btn">重答（1张万能卡）</button>
+
       <button open-type="share" @onShareAppMessage="share" class="btn">
         分享给朋友({{ lives }}/3)
       </button>
@@ -32,10 +47,11 @@ const url = "https://qt1rpp-image.oss.laf.run/"; // 图片地址
 const gameId = ref(""); // 当前对局id
 const image = ref(""); // 当前图片地址
 const index = ref(1); // 当前关卡
-const answer = ref(""); // 答案
+const answerNumber = ref(4); // 答案字数
+const answerList = ref([]); // 答案
 const showRetro = ref(false); // 是否显示复活弹窗
 const lives = ref(0); // 复活次数
-const randomChar = ref(""); // 随机字符
+const randomChar = ref(null); // 随机字符 包含答案
 
 // ========================================created========================================
 onShareAppMessage(async () => {
@@ -44,9 +60,9 @@ onShareAppMessage(async () => {
   setTimeout(async () => {
     await cloud.invoke("share", { id: gameId.value });
     getImage();
-
+    getLives();
     index.value++;
-    answer.value = "";
+    answer.value = [];
     showRetro.value = false;
   }, 1000);
 
@@ -55,6 +71,7 @@ onShareAppMessage(async () => {
     path: "/pages/index",
   };
 });
+
 createGame();
 // ========================================methods========================================
 
@@ -65,6 +82,7 @@ async function createGame() {
   if (res.ok) {
     gameId.value = res.id;
     getImage();
+    getLives();
   }
 }
 
@@ -75,32 +93,52 @@ async function getImage() {
   if (res.ok) {
     image.value = res.url;
     image.value = url + image.value;
-    randomChar.value = res.randomChar;
+    randomChar.value = res.randomChar.split("");
   }
 }
 
-async function submit() {
+async function getLives() {
+  const res = await cloud.invoke("get-lives", { id: gameId.value });
+  lives.value = res.lives;
+}
+
+function clickText(text) {
+  if (answerList.value.length >= answerNumber.value) return;
+  answerList.value.push(text);
+  if (answerList.value.length == answerNumber.value) {
+    const answer = answerList.value.join("");
+    submit(answer);
+  }
+}
+
+function clickDelete() {
+  answerList.value.pop();
+}
+
+async function submit(answer) {
   const res = await cloud.invoke("submit-answer", {
     id: gameId.value,
-    answer: answer.value,
+    answer: answer,
   });
 
   if (res.ok) {
-    index.value++;
-    answer.value = "";
-
     uni.showToast({
       title: "回答正确",
       icon: "success",
-      duration: 500,
+      duration: 1000,
     });
 
-    getImage();
+    setTimeout(() => {
+      index.value++;
+      answerList.value = [];
+      getImage();
+    }, 1000);
   } else {
-    showRetro.value = true;
-
-    const r = await cloud.invoke("get-lives", { id: gameId.value });
-    lives.value = r.lives;
+    uni.showToast({
+      title: "回答错误",
+      icon: "error",
+      duration: 500,
+    });
   }
 }
 
@@ -123,22 +161,50 @@ function clickImg() {
   line-height: 100rpx;
   font-size: 30px;
 }
+
 .img {
-  width: 80%;
-  margin: 50rpx 0 0 10%;
+  width: 500rpx;
+  height: 500rpx;
+  margin: 50rpx 0 0 130rpx;
 }
 .prompt {
   width: 100%;
   text-align: center;
 }
-.uni-input {
-  box-sizing: border-box;
-  width: 80%;
+.answerList {
+  display: flex;
+  margin: 50rpx 0 0 0;
+  padding: 0 100rpx;
+  justify-content: space-around;
+  .answer {
+    text-align: center;
+    line-height: 100rpx;
+    width: 100rpx;
+    height: 100rpx;
+    border: 1px solid #ccc;
+  }
+}
+.promptList {
+  display: flex;
+  flex-wrap: wrap;
+  width: 680rpx;
+  margin: 50rpx 0 50rpx 0;
+  padding: 0 40rpx;
+  justify-content: space-around;
+  .text {
+    margin: 10rpx;
+    width: 80rpx;
+    height: 80rpx;
+    text-align: center;
+    line-height: 80rpx;
+    border: 1px solid #ccc;
+  }
+}
+
+.shareBtn {
+  width: 300rpx;
   height: 100rpx;
-  margin: 50rpx 0 0 10%;
-  border: 1px solid #000;
-  border-radius: 10rpx;
-  padding: 0 20rpx;
+  line-height: 100rpx;
 }
 .btn {
   width: 80%;

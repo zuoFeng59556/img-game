@@ -1,12 +1,9 @@
 <template>
-
   <view class="box">
     <view class="title">设置一个帅气的头像和姓名吧！</view>
 
-
     <image class="avatar" :src="avatarUrl"></image>
 
-    
     <button
       class="avatar-wrapper"
       open-type="chooseAvatar"
@@ -34,8 +31,7 @@ import cloud from "../api/cloud";
 
 const name = ref("");
 const avatarUrl = ref("");
-const avatarShow = ref(false)
-
+const avatarShow = ref(false);
 
 // ========================================created========================================
 
@@ -44,7 +40,6 @@ login();
 // ========================================methods========================================
 
 async function ok() {
-  console.log(name.value, avatarUrl.value);
   if (!name.value || !avatarUrl.value) {
     uni.showToast({
       title: "请填写完整信息",
@@ -104,12 +99,10 @@ async function login() {
 
 function onChooseAvatar(e) {
   avatarUrl.value = e.detail.avatarUrl;
- 
-  if (avatarUrl.value) {
-    avatarShow.value = true
-  }
-  
 
+  if (avatarUrl.value) {
+    avatarShow.value = true;
+  }
 }
 
 function getNickname(e) {
@@ -118,7 +111,6 @@ function getNickname(e) {
 </script>
 
 <style lang="less">
-
 .box {
   margin: 250rpx 0 0 0;
   display: flex;
@@ -126,7 +118,7 @@ function getNickname(e) {
   align-items: center;
   justify-content: center;
 
-  .title{
+  .title {
     font-size: 28rpx;
   }
 
@@ -138,14 +130,13 @@ function getNickname(e) {
     align-items: center;
     text-align: center;
     font-size: 28rpx;
-
   }
   .avatar {
     margin-top: 30rpx;
-      width: 100rpx;
-      height: 100rpx;
-      border-radius: 50%;
-    }
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+  }
 
   .avatar-wrapper::after {
     border: none;
@@ -161,7 +152,7 @@ function getNickname(e) {
     font-size: 28rpx;
   }
 
-  .btn{
+  .btn {
     margin-top: 50rpx;
     width: 220rpx;
     height: 80rpx;
