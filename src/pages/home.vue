@@ -6,7 +6,9 @@
     <view class="prompt">提示：四字成语。</view>
     <view class="answerList">
       <view v-for="item in answerNumber" class="answer">{{ answerList[item - 1] }}</view>
-      <view @click="clickDelete">删除</view>
+      <view class="del" @click="clickDelete">
+      <img class="del" src="../static/del.png" alt="">
+      </view>
     </view>
 
     <view class="promptList">
@@ -268,5 +270,15 @@ function clickImg() {
     padding: 10px 20px;
     border-radius: 5px;
   }
+
+}
+
+.del{
+  margin-top: 6rpx;
+  width: 80rpx;
+  height: 80rpx;
+  text-align: center;
+  line-height: 70rpx;
+  border-radius: 20rpx;
 }
 </style>
