@@ -18,17 +18,17 @@
     </view>
 
     <button open-type="share" @onShareAppMessage="share" class="shareBtn">
-      分享跳过({{ lives }}/3)
+      分享跳过 ({{ lives }}/3)
     </button>
 
     <view v-show="showRetro" class="retro-box">
       <view class="title">挑战失败！</view>
       <view class="text">分享可复活并跳过此关。</view>
-      <button @click="close" class="btn">跳过（1张万能卡）</button>
-      <button @click="close" class="btn">重答（1张万能卡）</button>
+      <button @click="close" class="btn">跳过（1 张万能卡）</button>
+      <button @click="close" class="btn">重答（1 张万能卡）</button>
 
       <button open-type="share" @onShareAppMessage="share" class="btn">
-        分享给朋友({{ lives }}/3)
+        分享给朋友 ({{ lives }}/3)
       </button>
       <button @click="close" class="btn">结束挑战</button>
       <view v-show="index != 1" class="text"
@@ -41,12 +41,18 @@
 <script setup>
 import cloud from "../api/cloud";
 import { ref } from "vue";
-import { onShareAppMessage } from "@dcloudio/uni-app";
+import { onShareAppMessage , onShareTimeline } from "@dcloudio/uni-app";
 // ========================================data========================================
+onShareTimeline(() => {
+	return {
+	  title: '我已经冲到大气层了，你呢？',
+    path: '/pages/index'
+	}
+})
 
 const url = "https://qt1rpp-image.oss.laf.run/"; // 图片地址
 
-const gameId = ref(""); // 当前对局id
+const gameId = ref(""); // 当前对局 id
 const image = ref(""); // 当前图片地址
 const index = ref(1); // 当前关卡
 const answerNumber = ref(4); // 答案字数
