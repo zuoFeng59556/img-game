@@ -13,7 +13,7 @@ export default {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           if (res.code) {
             //发起网络请求
-            cloud.invoke(`wx-login/?code=${res.code}`).then(res=>{
+            cloud.invoke(`wx-login?code=${res.code}`).then(res=>{
               console.log('login')
               uni.setStorageSync("access_token", res.access_token);
               uni.setStorageSync("user", res.user); 
