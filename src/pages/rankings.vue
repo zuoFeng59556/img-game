@@ -41,9 +41,9 @@
         <view class="right"> 通关{{ item.score }}层 </view>
       </view>
 
-      <view class="item" v-if="index != 0 && index != 1 && index != 2">
+      <view class="item" v-if="index > 3">
         <view class="left">
-          <view class="img">4</view>
+          <view class="img">{{ index }}</view>
         </view>
 
         <view class="center">
