@@ -16,7 +16,7 @@ export default {
             cloud.invoke(`wx-login/?code=${res.code}`).then(res=>{
               console.log('login')
               uni.setStorageSync("access_token", res.access_token);
-              uni.setStorageSync("user", res.user);
+              uni.setStorageSync("user", res.user); 
             }).catch(err=>{
               console.log("登录失败！" ,err)
             })
