@@ -7,7 +7,7 @@
     <view class="answerList">
       <view v-for="item in answerNumber" class="answer">{{ answerList[item - 1] }}</view>
       <view class="del" @click="clickDelete">
-      <img class="del" src="../static/del.png" alt="">
+        <img class="delIcon" src="../static/del.png" alt="" />
       </view>
     </view>
 
@@ -270,15 +270,19 @@ function clickImg() {
     padding: 10px 20px;
     border-radius: 5px;
   }
-
 }
 
-.del{
+.del {
   margin-top: 6rpx;
   width: 80rpx;
   height: 80rpx;
   text-align: center;
   line-height: 70rpx;
   border-radius: 20rpx;
+}
+.delIcon {
+  margin-top: 10rpx;
+  width: 60rpx;
+  height: 60rpx;
 }
 </style>
