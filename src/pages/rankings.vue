@@ -61,6 +61,14 @@
 import { ref } from "vue";
 
 import cloud from "../api/cloud";
+import { onShareTimeline } from '@dcloudio/uni-app'
+
+onShareTimeline(() => {
+	return {
+	  title: '我已经冲到大气层了，你呢？',
+    path: '/pages/index'
+	}
+})
 
 const url = "https://qt1rpp-avatar.oss.laf.run/"; // 图片地址
 const userList = ref([]);

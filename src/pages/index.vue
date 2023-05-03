@@ -3,7 +3,7 @@
     <view class="slideshow">
       <image class="titleimg" src="../static/test1.gif" />
     </view>
-    <view class="prompt">根据图片猜成语，图片来自AI，人工挑战智能！</view>
+    <view class="prompt">根据图片猜成语，图片来自 AI，人工挑战智能！</view>
 
     <view class="btn" @click="goStart">
       <view class="item">
@@ -29,11 +29,19 @@
 </template>
 
 <script setup>
+import { onShareTimeline } from '@dcloudio/uni-app'
 import { ref } from "vue";
 
 // ========================================data========================================
 
 // ========================================created========================================
+
+onShareTimeline(() => {
+	return {
+	  title: '我已经冲到大气层了，你呢？',
+    path: '/pages/index'
+	}
+})
 
 login();
 
@@ -65,6 +73,8 @@ async function login() {
     },
   });
 }
+
+ 
 
 function goStart() {
   uni.navigateTo({
