@@ -2,8 +2,7 @@
   <view>
     <view class="title">第{{ index }}层</view>
     <image class="img" @click="clickImg" :src="image"></image>
-    <!-- <view class="prompt">(点击图片可查看大图)</view> -->
-    <view class="prompt">提示：四字成语。</view>
+    <view class="prompt">提示：{{ promptType }}。</view>
     <view class="answerList">
       <view v-for="item in answerNumber" class="answer">{{ answerList[item - 1] }}</view>
       <view class="del" @click="clickDelete">
@@ -18,46 +17,32 @@
     </view>
 
     <button open-type="share" @onShareAppMessage="share" class="shareBtn">
-      分享跳过 ({{ lives }}/3)
+      分享看答案 ({{ lives }}/3)
     </button>
-
-    <view v-show="showRetro" class="retro-box">
-      <view class="title">挑战失败！</view>
-      <view class="text">分享可复活并跳过此关。</view>
-      <button @click="close" class="btn">跳过（1 张万能卡）</button>
-      <button @click="close" class="btn">重答（1 张万能卡）</button>
-
-      <button open-type="share" @onShareAppMessage="share" class="btn">
-        分享给朋友 ({{ lives }}/3)
-      </button>
-      <button @click="close" class="btn">结束挑战</button>
-      <view v-show="index != 1" class="text"
-        >您已登上天梯榜，记得去“我的”设置头像和昵称哦～</view
-      >
-    </view>
   </view>
 </template>
 
 <script setup>
 import cloud from "../api/cloud";
 import { ref } from "vue";
-import { onShareAppMessage , onShareTimeline } from "@dcloudio/uni-app";
+import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app";
 // ========================================data========================================
 onShareTimeline(() => {
-	return {
-	  title: '我已经冲到大气层了，你呢？',
-    path: '/pages/index'
-	}
-})
+  return {
+    title: "我已经冲到大气层了，你呢？",
+    path: "/pages/index",
+  };
+});
 
 const url = "https://qt1rpp-image.oss.laf.run/"; // 图片地址
+
+const promptType = ref("四字成语");
 
 const gameId = ref(""); // 当前对局 id
 const image = ref(""); // 当前图片地址
 const index = ref(1); // 当前关卡
 const answerNumber = ref(4); // 答案字数
 const answerList = ref([]); // 答案
-const showRetro = ref(false); // 是否显示复活弹窗
 const lives = ref(0); // 复活次数
 const randomChar = ref(null); // 随机字符 包含答案
 
@@ -66,12 +51,10 @@ onShareAppMessage(async () => {
   if (lives.value <= 0) return;
 
   setTimeout(async () => {
-    await cloud.invoke("share", { id: gameId.value });
-    getImage();
+    const res = await cloud.invoke("share", { id: gameId.value });
+    promptType.value = res.answer;
     getLives();
-    index.value++;
     answer.value = [];
-    showRetro.value = false;
   }, 1000);
 
   return {
@@ -173,7 +156,7 @@ function clickImg() {
 .img {
   width: 500rpx;
   height: 500rpx;
-  margin: 50rpx 0 0 130rpx;
+  margin: 0rpx 0 0 130rpx;
 }
 .prompt {
   width: 100%;
@@ -181,7 +164,7 @@ function clickImg() {
 }
 .answerList {
   display: flex;
-  margin: 50rpx 0 0 0;
+  margin: 20rpx 0 0 0;
   padding: 0 100rpx;
   justify-content: space-around;
   .answer {
@@ -196,11 +179,11 @@ function clickImg() {
   display: flex;
   flex-wrap: wrap;
   width: 680rpx;
-  margin: 50rpx 0 50rpx 0;
+  margin: 20rpx 0 10rpx 0;
   padding: 0 40rpx;
   justify-content: space-around;
   .text {
-    margin: 10rpx;
+    margin: 5rpx;
     width: 80rpx;
     height: 80rpx;
     text-align: center;
@@ -210,13 +193,13 @@ function clickImg() {
 }
 
 .shareBtn {
-  width: 300rpx;
+  width: 50%;
   height: 100rpx;
   line-height: 100rpx;
 }
 .btn {
   width: 80%;
-  margin: 50rpx 0 0 10%;
+  margin: 0rpx 0 0 10%;
   background-color: gray;
   color: white;
   font-size: 24px;
